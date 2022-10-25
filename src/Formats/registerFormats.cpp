@@ -88,6 +88,7 @@ void registerOutputFormatMarkdown(FormatFactory & factory);
 void registerOutputFormatPostgreSQLWire(FormatFactory & factory);
 void registerOutputFormatPrometheus(FormatFactory & factory);
 void registerOutputFormatSQLInsert(FormatFactory & factory);
+void registerOutputFormatJSONCompactEachRowWithProgress(FormatFactory & factory);
 
 /// Input only formats.
 
