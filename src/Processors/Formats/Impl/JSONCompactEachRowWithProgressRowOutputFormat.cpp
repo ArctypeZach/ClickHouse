@@ -57,6 +57,8 @@ void JSONCompactEachRowWithProgressRowOutputFormat::writeRowStartDelimiter()
 void JSONCompactEachRowWithProgressRowOutputFormat::writeRowEndDelimiter()
 {
     writeCString("]\n", *ostr);
+    if (has_progress)
+        writeProgress();
 }
 
 void JSONCompactEachRowWithProgressRowOutputFormat::onProgress(const Progress & value)
@@ -71,13 +73,6 @@ void JSONCompactEachRowWithProgressRowOutputFormat::onProgress(const Progress & 
     std::lock_guard lock(progress_lines_mutex);
     progress_lines.emplace_back(std::move(progress_line));
     has_progress = true;
-}
-
-void JSONCompactEachRowWithProgressRowOutputFormat::flush()
-{
-    if (has_progress)
-        writeProgress();
-    JSONCompactEachRowWithProgressRowOutputFormat::flush();
 }
 
 void JSONCompactEachRowWithProgressRowOutputFormat::writeTotals(const Columns & columns, size_t row_num)
@@ -119,13 +114,6 @@ void JSONCompactEachRowWithProgressRowOutputFormat::writePrefix()
 
     if (with_types)
         writeLine(JSONUtils::makeNamesValidJSONStrings(header.getDataTypeNames(), settings, settings.json.validate_utf8));
-}
-
-void JSONCompactEachRowWithProgressRowOutputFormat::writeSuffix()
-{
-    if (has_progress)
-        writeProgress();
-    JSONCompactEachRowWithProgressRowOutputFormat::writeSuffix();
 }
 
 void JSONCompactEachRowWithProgressRowOutputFormat::writeProgress()
