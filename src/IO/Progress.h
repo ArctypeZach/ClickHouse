@@ -33,6 +33,7 @@ struct ProgressValues
     void read(ReadBuffer & in, UInt64 server_revision);
     void write(WriteBuffer & out, UInt64 client_revision) const;
     void writeJSON(WriteBuffer & out) const;
+    void writeJSONCompact(WriteBuffer & out) const;
 };
 
 struct ReadProgress
@@ -119,6 +120,8 @@ struct Progress
 
     /// Progress in JSON format (single line, without whitespaces) is used in HTTP headers.
     void writeJSON(WriteBuffer & out) const;
+
+    void writeJSONCompact(WriteBuffer & out) const;
 
     /// Each value separately is changed atomically (but not whole object).
     bool incrementPiecewiseAtomically(const Progress & rhs);

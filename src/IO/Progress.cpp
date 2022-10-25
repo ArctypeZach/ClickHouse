@@ -64,6 +64,27 @@ void ProgressValues::writeJSON(WriteBuffer & out) const
     writeCString("\"}", out);
 }
 
+void ProgressValues::writeJSONCompact(WriteBuffer & out) const
+{
+    writeCString("\"", out);
+    writeText(read_rows, out);
+    writeCString("\",\"", out);
+    writeText(read_bytes, out);
+    writeCString("\",\"", out);
+    writeText(written_rows, out);
+    writeCString("\",\"", out);
+    writeText(written_bytes, out);
+    writeCString("\",\"", out);
+    writeText(total_rows_to_read, out);
+    writeCString("\",\"", out);
+    writeText(result_rows, out);
+    writeCString("\",\"", out);
+    writeText(result_bytes, out);
+    writeCString("\",\"", out);
+    writeText(elapsed_ns, out);
+    writeCString("\"", out);
+}
+
 bool Progress::incrementPiecewiseAtomically(const Progress & rhs)
 {
     read_rows += rhs.read_rows;
@@ -205,6 +226,11 @@ void Progress::write(WriteBuffer & out, UInt64 client_revision) const
 void Progress::writeJSON(WriteBuffer & out) const
 {
     getValues().writeJSON(out);
+}
+
+void Progress::writeJSONCompact(WriteBuffer & out) const
+{
+    getValues().writeJSONCompact(out);
 }
 
 }
