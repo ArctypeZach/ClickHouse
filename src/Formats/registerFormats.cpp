@@ -221,6 +221,7 @@ void registerFormats()
     registerOutputFormatCapnProto(factory);
     registerOutputFormatPrometheus(factory);
     registerOutputFormatSQLInsert(factory);
+    registerOutputFormatJSONCompactEachRowWithProgress(factory);
 
     registerInputFormatRegexp(factory);
     registerInputFormatJSONAsString(factory);

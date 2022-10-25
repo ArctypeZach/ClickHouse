@@ -24,8 +24,7 @@ public:
         bool yield_strings_);
 
     String getName() const override { return "JSONCompactEachRowRowWithProgressRowOutputFormat"; }
-    void onProgress(const Progress & value) override;
-    void flush() override;    
+    void onProgress(const Progress & value) override; 
 
 private:
     void writePrefix() override;
@@ -36,8 +35,7 @@ private:
     void writeFieldDelimiter() override;
     void writeRowStartDelimiter() override;
     void writeRowEndDelimiter() override;
-    void writeSuffix() override;
-    void writeProgress();
+    
     bool supportTotals() const override { return true; }
     void consumeTotals(Chunk) override;
 
@@ -47,6 +45,8 @@ private:
     bool with_names;
     bool with_types;
     bool yield_strings;
+
+    void writeProgress();
 
     Progress progress;
     std::vector<String> progress_lines;

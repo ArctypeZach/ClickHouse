@@ -48,8 +48,6 @@ void JSONCompactEachRowWithProgressRowOutputFormat::writeFieldDelimiter()
 
 void JSONCompactEachRowWithProgressRowOutputFormat::writeRowStartDelimiter()
 {
-    if (has_progress)
-        writeProgress();
     writeChar('[', *ostr);
 }
 
@@ -57,8 +55,6 @@ void JSONCompactEachRowWithProgressRowOutputFormat::writeRowStartDelimiter()
 void JSONCompactEachRowWithProgressRowOutputFormat::writeRowEndDelimiter()
 {
     writeCString("]\n", *ostr);
-    if (has_progress)
-        writeProgress();
 }
 
 void JSONCompactEachRowWithProgressRowOutputFormat::onProgress(const Progress & value)
@@ -92,6 +88,9 @@ void JSONCompactEachRowWithProgressRowOutputFormat::writeTotals(const Columns & 
 
 void JSONCompactEachRowWithProgressRowOutputFormat::writeLine(const std::vector<String> & values)
 {
+    if (has_progress)
+        writeProgress();
+        
     JSONUtils::makeNamesValidJSONStrings(values, settings, settings.json.validate_utf8);
     writeRowStartDelimiter();
     for (size_t i = 0; i < values.size(); ++i)
@@ -108,7 +107,9 @@ void JSONCompactEachRowWithProgressRowOutputFormat::writeLine(const std::vector<
 void JSONCompactEachRowWithProgressRowOutputFormat::writePrefix()
 {
     const auto & header = getPort(PortKind::Main).getHeader();
-
+    if (has_progress)
+        writeProgress();
+        
     if (with_names)
         writeLine(JSONUtils::makeNamesValidJSONStrings(header.getNames(), settings, settings.json.validate_utf8));
 
